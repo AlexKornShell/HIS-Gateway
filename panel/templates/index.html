@@ -1,0 +1,73 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+	{% if user.is_authenticated %}
+	
+		<div id="plots">
+			<img src="data:image/png;base64,{{ plot }}" alt="" height="450" ,width="450">
+			
+			<form action="" method="get" style="padding-left: 85%; padding-top: 5%;">
+				<input type="submit" class="btn" value="update" name="plot">
+			</form>
+		</div>
+	
+		<div id="logs">
+			{% if his_requests %}
+				<h1>Latest HIS Gateway requests:</h1>
+				<!-- <p>Latest HIS Gateway requests:</p> -->
+				<ul>
+					{% for request in his_requests|slice:":10" %}
+						<li>Request to {{ request.url }} from {{ request.source }}
+						<br>
+						at: {{ request.date_time|date:'H:i:s' }}, {{ request.date_time|date:'Y-m-d' }}
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>There are no requests.</p>
+			{% endif %}
+		</div>
+		
+		<div id="urls_form">
+			<form action="change_urls/" method="post">{% csrf_token %}
+				<h1>System urls:</h1>
+				<p>
+					<label for="servers_url">Servers url: </label>
+					<input id="servers_url" type="text" name="servers_url" size="24" value="" placeholder={{ servers_url }} readonly>
+				</p>
+				<p>
+					<label for="db_url">DataBase url: </label>
+					<input id="db_url" type="text" name="db_url" size="24" value="" placeholder={{ db_url }} readonly>
+				</p>
+				<!-- <p>
+					<input type="submit" value="Confirm">
+				</p> -->
+			</form>
+		</div>
+		
+		<div id="check_form">
+			<form action="check_servers/" method="get">{% csrf_token %}
+				<p>
+					<input id="check_servers" type="submit" value="Check servers" style="width: 110px;">
+					{% if servers_st %}
+						<label for="check_servers" style="padding-left: 20px; color: green;"> Online </label>
+					{% else %}
+						<label for="check_servers" style="padding-left: 20px; color: red;"> Offline </label>
+					{% endif %}
+				</p>
+			</form>
+			<form action="check_db/" method="get">{% csrf_token %}
+				<p>
+					<input id="check_db" type="submit" value="Check DB" style="width: 110px;">
+					{% if db_st %}
+						<label for="check_db" style="padding-left: 20px; color: green;"> Online </label>
+					{% else %}
+						<label for="check_db" style="padding-left: 20px; color: red;"> Offline </label>
+					{% endif %}
+				</p>
+			</form>
+		</div>
+
+	{% endif %}
+{% endblock %}

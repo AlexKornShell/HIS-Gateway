@@ -1,0 +1,33 @@
+#urls_form{
+	position: absolute;
+    right: 25px;
+	top: 100px;
+}
+#check_form{
+	position: absolute;
+	right: 155px;
+	top: 275px;
+}
+#plots{
+	position: absolute;
+	width: 450px;
+    left: 25px;
+}
+#logs{
+	position: relative;
+	width: 320px;
+    left: 80%;
+	top: 20px;
+}
+form{
+	display: table;
+}
+p{
+	display: table-row;
+}
+label{
+	display: table-cell;
+}
+input{
+	display: table-cell;
+}
